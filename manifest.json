@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "short_name": "React App",
   "name": "Create React App Sample",
+=======
+  "short_name": "NetFilm",
+  "name": "NetFilm",
+>>>>>>> a9e0f57 (v.1.0.1)
   "icons": [
     {
       "src": "favicon.ico",
