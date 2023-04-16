@@ -29,7 +29,6 @@ export default function Home() {
     { title: "معمایی", link: "Mystery", images: "https://tv.filmnet.ir/images/30/76/3076e55fdf1e4db7b52c399cbd50bb79.jpg?w=500" },
 
   ];
-  console.log(apidata)
   if (apidata.Status === 200) {
     if ('Sections' in apidata.Result) {
       const { Result: { Sections } } = apidata;

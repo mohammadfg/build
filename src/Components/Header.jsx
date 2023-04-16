@@ -4,6 +4,7 @@ import List from "./Lists2";
 import { checkLoggedInUser, logOut } from '../Connections'
 import { Api } from '../Api'
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Player } from '@lottiefiles/react-lottie-player'
 
 
@@ -45,8 +46,8 @@ export default function Header() {
 
   function handleLoguot() {
     logOut();
-    setloginState();
     toast.success("با موفقیت از حساب خود خارج شدید");
+    setloginState();
   }
   function handleKeyDown(event) {
     if (event.key === 'Enter') {
@@ -135,7 +136,7 @@ export default function Header() {
               ? searchData.length >= 1 ? searchData.map(({ Title, Summary, ContentID, ZoneID }) => {
                 if (ZoneID === 4) {
                   return (
-                      <List title={Title} summery={Summary} id={ContentID} />
+                    <List title={Title} summery={Summary} id={ContentID} key={ContentID} />
                   );
                 }
               }) :

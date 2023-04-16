@@ -14,5 +14,8 @@
   }
   .lists::-webkit-scrollbar {
       height: 10px;
-  } 
+  }
+  .g_a11y_announcement{
+    display: none;
+  }
 }

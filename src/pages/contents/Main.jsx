@@ -7,7 +7,7 @@ export default function Main({ mainValue, relatedContent }) {
   const { Result: { RelatedContents } } = relatedContent;
 
   return (
-    <main className="p-10 pt-0">
+    <main className="px-2 sm:px-5">
       <div>
         <h2 className="text-3xl my-4 break-words">چکیده داستان :</h2>
         <p dangerouslySetInnerHTML={{ __html: Body }}></p>

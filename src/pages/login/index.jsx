@@ -2,12 +2,15 @@ import { useState } from "react";
 import { handleLogin } from '../../Connections'
 import { Player } from '@lottiefiles/react-lottie-player'
 import { useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
   const [form, setform] = useState({ email: "", password: "" });
   const [display, setDisplay] = useState(false);
-  // const [Error, setError] = useState({ email: "", warning: "" });
+  const [Error, setError] = useState({ email: "", password: "" });
   const [ErrorServer, setErrorServer] = useState({});
 
   function handleform({ target: { type, value } }) {
@@ -19,19 +22,31 @@ export default function Login() {
       setDisplay(!display);
     }
   }
-  async function handleSubmit() {
-    const { email } = form;
+  async function handleSubmit(value = {}, jwt = "") {
+    const result = Object.keys(value).length > 1 ? value : form;
     const regex = /^[a-zA-Z0-9]+[a-zA-Z0-9._]*@(outlook|hotmail|live|msn|gmail)\.(com|co\.uk)$/;
-    if (regex.test(email)) {
+    if (regex.test(result.email) && ('password' in result ? (result.password >= 3 ? true : false) : true)) {
       handleDisplay();
-      const result = await handleLogin(form);
-      setErrorServer(result);
+      const result2 = await handleLogin(result, jwt);
+      setErrorServer(result2);
+    } else {
+      setError(
+        {
+          email: "لطفا ایمیلی معتبر وارد کنید",
+          // ...('password' in result ? (result.password >= 3 ? { password: "" } : { password: "گذرواژه باید بیشتر از 3 حرف باشد" }) : { password: "" })
+          ...('password' in result ? (result.password >= 3 ? { password: "" } : { password: "گذرواژه باید بیشتر از 3 حرف باشد" }) : { password: "" })
+        }
+      )
     }
   }
-
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      handleSubmit();
+    }
+  }
   return (
     <div
-      className="flex justify-center flex-col h-screen items-center mx-auto"
+      className="flex justify-center flex-col h-screen items-center mx-auto overflow-hidden relative"
       style={{ backgroundImage: "url('./images/backgroun_login.jpg')", backgroundRepeat: "no-repeat", backgroundSize: "cover" }}
     >
       <img
@@ -68,34 +83,44 @@ export default function Login() {
           <div>
             <label className="block mb-2">نام کاربری (ایمیل)</label>
             <input
-              className="border border-sky-500 rounded-md bg-transparent p-2 focus:ring-sky-600 w-full focus:ring"
+              className={"border rounded-md bg-transparent p-2 w-full " + (Error.email.length > 0 ? "border-red-600 " : "border-sky-500 focus:ring-sky-600")}
               type="email"
+              onFocus={() => { setError((obj) => { return { ...obj, email: "" } }) }}
               onChange={handleform}
             />
+            <p className={Error.email.length > 0 ? "text-red-500 text-sm font-bold mt-1 block" : "hidden"}>{Error.email}</p>
           </div>
           <div>
             <label className="block my-2">گذرواژه</label>
             <input
-              className="border border-sky-500 rounded-md bg-transparent p-2 focus:ring-sky-600 w-full focus:ring"
+              className={"border rounded-md bg-transparent p-2 w-full " + (Error.password.length > 0 ? "border-red-600 " : "border-sky-500 focus:ring-sky-600")}
               type="password"
+              onFocus={() => { setError((obj) => { return { ...obj, password: "" } }) }}
+
               onChange={handleform}
             />
+            <p className={Error.password.length > 0 ? "text-red-500 text-sm font-bold mt-1 block" : "hidden"}>{Error.password}</p>
           </div>
           <input
             type="button"
             className="bg-teal-500 rounded-md p-2  my-2 cursor-pointer w-full"
             value="ورود / ثبت نام"
-            onClick={handleSubmit}
+            onClick={() => { handleSubmit() }}
+            onKeyDown={handleKeyDown}
           />
-          <a
-            href="/"
-            className="bg-white rounded-md text-black p-2 block text-center"
-          >
-            Sing uo with Google
-            <img src="/icons/google.svg" alt="google" className="inline" />
-          </a>
-        </div>
+          <GoogleOAuthProvider clientId="166052930912-1efj39514fjq6jg1mp0hsi9kfitgndi9.apps.googleusercontent.com">
+            <GoogleLogin
 
+              onSuccess={credentialResponse => {
+                var decoded = jwt_decode(credentialResponse.credential);
+                handleSubmit(decoded, credentialResponse.credential)
+              }}
+              onError={() => {
+                toast.warn("خطایی رخ داده است")
+              }}
+            />
+          </GoogleOAuthProvider>
+        </div>
       </form>
     </div>
   );

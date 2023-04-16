@@ -52,11 +52,11 @@ export default function Lists({ listValue, title, background }) {
                                 alt="poster"
                               />
                               <div className="opacity-0 h-full transition group-hover:opacity-100 absolute p-2 leading-loose text-sm bg-[#000000ab] top-0 w-full">
-                                {Properties.map(({ Name, Value }) => {
+                                {Properties.map(({ Name, Value },index) => {
                                   if (Name === "سال" || Name === "ژانر") {
-                                    return <p>{Name + ":" + Value}</p>;
+                                    return <p key={index}>{Name + ":" + Value}</p>;
                                   } else if (Name === "رتبه IMDB") {
-                                    return (<span>
+                                    return (<span key={index}>
                                       <img
                                         src="/icons/imdb.svg"
                                         alt="imdb"
