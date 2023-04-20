@@ -97,7 +97,7 @@ export default function Header({ headerValue }) {
       </header>
       {
         TrailerList.length >= 1 && display ?
-          <div className={display ? "fixed  z-[3] w-full h-full bg-[#000000ba] top-0" : "hidden"} onClick={() => setDisplay(false)}>
+          <div className={"fixed  z-[3] w-full h-full bg-[#000000ba] top-0"} onClick={() => setDisplay(false)}>
             <button className="text-red-700 top-4 right-4 text-4xl p-2 z-[1] bg-[#4242428a] rounded-full pb-0 m-3" onClick={() => setDisplay(false)}>X</button>
 
             <Player info={TrailerList[0]} image={LandscapeImage} />  </div>
@@ -105,9 +105,13 @@ export default function Header({ headerValue }) {
       }
       {
         AttachmentList.length >= 1 && displaydownload && loginState ?
-          <div className={displaydownload ? "fixed w-full h-full bg-[#000000ba] top-0 flex justify-center items-center z-[3]" : "hidden"} onClick={() => setDisplay(false)}>
+          <div className={"fixed w-full h-full bg-[#000000ba] top-0 flex justify-center items-center z-[3]"} onClick={() => setDisplay(false)}>
             <button className="text-red-700 absolute top-4 right-4 text-4xl p-2 z-[1] bg-[#4242428a] rounded-full pb-0" onClick={() => setdisplaydownload(false)}>X</button>
-            <Download listdl={AttachmentList} />
+            {
+              (AttachmentList[0].Files.some(({ FileExtension }) => FileExtension === "mp4")) ?
+                <Download listdl={AttachmentList} image={LandscapeImage} />
+                : <Player info={AttachmentList[0]} image={LandscapeImage} />
+            }
           </div>
           : null
       }

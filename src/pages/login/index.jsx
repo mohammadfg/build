@@ -32,7 +32,7 @@ export default function Login() {
     } else {
       setError(
         {
-          email: "لطفا ایمیلی معتبر وارد کنید",
+          email: (regex.test(result.email) ? "" : "لطفا ایمیلی معتبر وارد کنید"),
           // ...('password' in result ? (result.password >= 3 ? { password: "" } : { password: "گذرواژه باید بیشتر از 3 حرف باشد" }) : { password: "" })
           ...('password' in result ? (result.password >= 3 ? { password: "" } : { password: "گذرواژه باید بیشتر از 3 حرف باشد" }) : { password: "" })
         }
