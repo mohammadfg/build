@@ -12,7 +12,7 @@ export default function Player({ info, image }) {
       const loadVideo = async () => {
         const video = document.getElementsByTagName("video")[0];
         var hls = new Hls();
-        hls.loadSource("https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8");
+        hls.loadSource(movies[0].Path);
         hls.attachMedia(video);
         ref.current.plyr.media = video;
 
@@ -41,7 +41,7 @@ export default function Player({ info, image }) {
   //
   return (
     <div className="sm:w-3/4 w-11/12  mx-auto" onClick={(e) => e.stopPropagation()}>
-      <Plyr source={{ ...plyrProps }} id="plyr"  ref={ref} />
+      <Plyr source={{ ...plyrProps }} id="plyr" ref={ref} />
     </div>
   )
 }
