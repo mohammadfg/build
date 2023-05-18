@@ -11,7 +11,7 @@ export default function Home() {
   const [apidata, setapidata] = useState({});
 
   async function uri() {
-    const Result = await Api('Home');
+    const Result = await Api('Movies');
     setapidata(Result);
   }
 
@@ -63,9 +63,11 @@ export default function Home() {
           </header>
 
           {Sections.map(({ Description, ContentSummaryRows, Image, SectionId, Title, Total }) => {
-            if (!Description.includes("اسلایدر")) {
+            const titleSite = Total > 1 ? Title : Description;
+
+            if (!titleSite.includes("اسلایدر")) {
               // let filtertitle = Description.includes("تک بنر") ? "" : Description;
-              const titleSite = Total > 1 ? Title : Description;
+              //const titleSite = Total > 1 ? Title : Description;
               let filtertitle = titleSite.includes("گپ فیلم") ? titleSite.replace("گپ فیلم", "نت فیلم") : titleSite;
               return (
                 <Lists

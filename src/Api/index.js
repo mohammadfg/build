@@ -1,7 +1,7 @@
 export async function Api(input, options) {
   let root = "https://core.gapfilm.ir/api/v3.3/GetFirstPageByPlatform?";
   // const ip = "https://api.linkirani.ir/apiv1/client/current";
-  let parameter = { PageIndex: 0, PageSize: 8, ContentRows: 21, PlatformId: 1, PageType: 1, PlatformType: 1, ParentType: 2 };
+  let parameter = { PageIndex: 0, PageSize: 10, ContentRows: 21, PlatformId: 1, PageType: 1, PlatformType: 1, ParentType: 2 };
   // try {
   //   const response = await fetch(ip);
   //   const { ipCountryCode = '' } = await response.json();

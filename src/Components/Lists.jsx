@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 export default function Lists({ listValue, title, background }) {
 
   const urlimage = "https://cdn.tek-nic.com/media/images/panel/";
-  if (!(title.includes("سریال") || title.includes("قسمت")))
+  if (listValue[0].ZoneId === 4 || listValue.length >= 2)
     return (
       <div
-        className={"p-4 mt-3 bg-cover sm:bg-contain" + (background.length > 0 ? " h-80 sm:h-[400px]" : "")}
+        className={"p-4 pt-0 bg-cover sm:bg-contain" + (background.length > 0 ? " h-80 sm:h-[400px]" : "")}
         style={
           background.length > 0
             ? { backgroundImage: ` url(${(listValue.length > 2) ? background : urlimage + listValue[0].ContentId + '/landscape9x4.jpg'})`, backgroundRepeat: "no-repeat" }
@@ -18,11 +18,11 @@ export default function Lists({ listValue, title, background }) {
       //     : null
       // }
       >
-        <h3 className="sm:text-4xl text-2xl">
+        <h3 className="sm:text-4xl text-2xl pt-2">
           {title}
           {/* <img src="/icons/arrow.svg" alt="arrow" className="w-9 inline" /> */}
         </h3>
-        <div className="relative mt-3">
+        <div className={"relative " + (listValue.length === 1 ? " mt-6" : "mt-2")}>
           {listValue.length >= 2 ?
             <ul className="lists flex flex-nowrap overflow-x-scroll">
               <swiper-container
@@ -52,7 +52,7 @@ export default function Lists({ listValue, title, background }) {
                                 alt="poster"
                               />
                               <div className="opacity-0 h-full transition group-hover:opacity-100 absolute p-2 leading-loose text-sm bg-[#000000ab] top-0 w-full">
-                                {Properties.map(({ Name, Value },index) => {
+                                {Properties.map(({ Name, Value }, index) => {
                                   if (Name === "سال" || Name === "ژانر") {
                                     return <p key={index}>{Name + ":" + Value}</p>;
                                   } else if (Name === "رتبه IMDB") {
