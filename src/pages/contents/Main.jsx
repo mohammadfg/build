@@ -9,6 +9,7 @@ export default function Main({ mainValue, relatedContent }) {
   return (
     <main className="px-2 sm:px-5">
       <div>
+        <h2 className="text-lg my-4 break-words text-yellow-400 text-center">🎊 حجم مصرفی اینترنت از دانلود و مشاهده فیلم ها نیم بها و تا یک سوم آن نیز محاسبه خواهد شد </h2>
         <h2 className="text-3xl my-4 break-words">چکیده داستان :</h2>
         <p dangerouslySetInnerHTML={{ __html: Body }}></p>
       </div>

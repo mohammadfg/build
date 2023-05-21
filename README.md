@@ -1,5 +1,3 @@
 todo list:
+- google or cloudflare analytics api
 
-- fix home page movies
-- fix categories
-- fix alert download

@@ -20,6 +20,13 @@ export default function Header() {
       setsearchData(Contents);
     }
   }
+  function handleScroll() {
+    if (window.scrollY >= 200) {
+      setelement(true);
+    } else {
+      setelement(false);
+    }
+  }
   useEffect(() => {
 
     checkLoggedInUser().then(res => {
@@ -27,15 +34,6 @@ export default function Header() {
     });
 
     handleSearch();
-
-
-    function handleScroll() {
-      if (window.scrollY >= 200) {
-        setelement(true);
-      } else {
-        setelement(false);
-      }
-    }
 
     window.addEventListener("scroll", handleScroll);
 
@@ -62,7 +60,7 @@ export default function Header() {
         className={`fixed mt-10 p-3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[3] rounded-xl w-11/12 container transition ${element ? "bg-[#ffffff21]" : "bg-transparent"
           }`}
       >
-        <a href="/" className="float-right">
+        <a href="/" className="float-right" onClick={(e) => { e.preventDefault(); window.location.replace("/"); }}>
           <img src="/images/logo.svg" alt="logo" className="h-6" />
         </a>
         {/*  <div className="float-right mx-5 sm:block hidden">

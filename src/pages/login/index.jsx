@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { handleLogin } from '../../Connections'
 import { Player } from '@lottiefiles/react-lottie-player'
-import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import { toast } from "react-toastify";
 
 export default function Login() {
-  const navigate = useNavigate();
   const [form, setform] = useState({ email: "", password: "" });
   const [display, setDisplay] = useState(false);
   const [Error, setError] = useState({ email: "", password: "" });
@@ -18,7 +16,7 @@ export default function Login() {
       return { ...calback, [type]: value }
     })
   } function handleDisplay(params) {
-    if (params === "success") { navigate("/"); } else {
+    if (params === "success") { window.location.replace("/") } else {
       setDisplay(!display);
     }
   }
@@ -53,7 +51,7 @@ export default function Login() {
         src="./images/logo.svg"
         alt="poster"
         className="absolute top-20 w-40 cursor-pointer"
-        onClick={() => { navigate("/"); }}
+        onClick={() => { window.location.replace("/"); }}
       />
 
       <form
@@ -86,6 +84,7 @@ export default function Login() {
               className={"border rounded-md bg-transparent p-2 w-full " + (Error.email.length > 0 ? "border-red-600 " : "border-sky-500 focus:ring-sky-600")}
               type="email"
               onFocus={() => { setError((obj) => { return { ...obj, email: "" } }) }}
+              onKeyDown={handleKeyDown}
               onChange={handleform}
             />
             <p className={Error.email.length > 0 ? "text-red-500 text-sm font-bold mt-1 block" : "hidden"}>{Error.email}</p>
@@ -96,7 +95,7 @@ export default function Login() {
               className={"border rounded-md bg-transparent p-2 w-full " + (Error.password.length > 0 ? "border-red-600 " : "border-sky-500 focus:ring-sky-600")}
               type="password"
               onFocus={() => { setError((obj) => { return { ...obj, password: "" } }) }}
-
+              onKeyDown={handleKeyDown}
               onChange={handleform}
             />
             <p className={Error.password.length > 0 ? "text-red-500 text-sm font-bold mt-1 block" : "hidden"}>{Error.password}</p>
@@ -106,7 +105,7 @@ export default function Login() {
             className="bg-teal-500 rounded-md p-2  my-2 cursor-pointer w-full"
             value="ورود / ثبت نام"
             onClick={() => { handleSubmit() }}
-            onKeyDown={handleKeyDown}
+
           />
           <GoogleOAuthProvider clientId="166052930912-1efj39514fjq6jg1mp0hsi9kfitgndi9.apps.googleusercontent.com">
             <GoogleLogin

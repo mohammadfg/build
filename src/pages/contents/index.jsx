@@ -13,18 +13,34 @@ export default function Index() {
   //------- Get and Set data form api
   const [contentapi, setcontentapi] = useState({});
   const [related, setRelated] = useState();
+  const [pageIndex, setPageIndex] = useState(25);
+
   const valueParameter = pathname.substring(10);
 
-  async function uri(urlparameter) {
-    const id = urlparameter.substring(10);
-    const result = await Promise.all([Api(id), typeof +id === "number" && Api("Related", id)]);
-    setcontentapi(await result[0]);
-    setRelated(await result[1]);
-  }
+  async function uri(urlparameter, pageIndex) {
+    function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
 
+    const id = urlparameter.substring(10);
+    const result = await Promise.all([Api(id, pageIndex), isNumber(id) && Api("Related", id)]);
+    setcontentapi((value) => ({ ...value, ...result[0] }));
+    setRelated(result[1]);
+  }
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    const valueParameter = pathname.substring(10);
+    if (scrollTop + clientHeight >= scrollHeight && ["History", "Mystery"].includes(valueParameter)) {
+      setPageIndex((value) => value + 30);
+    }
+  };
   useEffect(() => {
-    uri(pathname);
-  }, [pathname]);
+    uri(pathname, pageIndex);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [pathname, pageIndex]);
+
   if (('Result' in contentapi)) {
     const { Result } = contentapi;
     return (
@@ -38,23 +54,24 @@ export default function Index() {
         {["Kids", "Movies", "Crime", "Actions", "Adventure", "History", "Horror", "Mystery"].includes(valueParameter) && Array.isArray(Result.Sections) ? (
           <div className="pt-20">
             {Result.Sections.map(({ Title, ContentSummaryRows, Image }, index) => {
-              if (!Title.includes("اسلایدر")) {
+              if (!Title.includes("اسلایدر") && ContentSummaryRows.some(({ ZoneId }) => ZoneId === 4)) {
                 return (
                   <Lists
                     key={index}
                     title={Title}
                     listValue={ContentSummaryRows}
                     background={Image}
+                    sectionsCount={Result.Sections.length}
                   />
                 );
               }
             })}
           </div>
         ) : ('AttachmentList' in Result) && (
-          <Main mainValue={Result} relatedContent={related} />
+          <><Main mainValue={Result} relatedContent={related} /><Footer /></>
         )}
 
-        <Footer />
+
       </>
     );
   } else if (Object.keys(contentapi) === 0) {

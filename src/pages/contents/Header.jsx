@@ -19,20 +19,20 @@ export default function Header({ headerValue }) {
   const [loginState, setloginState] = useState();
   const [display, setDisplay] = useState(false);
   const [displaydownload, setdisplaydownload] = useState(false);
-  const [ip, setip] = useState(false);
+  // const [ip, setip] = useState(false);
 
 
-  async function country() {
-    const ip = "https://api.linkirani.ir/apiv1/client/current";
-    try {
-      const { ipCountryCode = 'ir' } = await fetch(ip).json();
-      setip(ipCountryCode === "ir" ? true : false);
-    } catch (error) {
-      setip(true);
-    }
-  }
+  // async function country() {
+  //   const ip = "https://api.linkirani.ir/apiv1/client/current";
+  //   try {
+  //     const { ipCountryCode = 'ir' } = await fetch(ip).json();
+  //     setip(ipCountryCode === "ir" ? false : true);
+  //   } catch (error) {
+  //     setip(false);
+  //   }
+  // }
   useEffect(() => {
-    country();
+    // country();
     checkLoggedInUser().then(res => setloginState(res));
   }, [])
 
@@ -67,8 +67,8 @@ export default function Header({ headerValue }) {
             <div className="mt-3 flex text-center">
               <button
                 onClick={() => {
-                  if (!loginState || !ip) {
-                    toast.warn("برای دانلود لطفاٌ" + (!ip ? "vpn خود را خاموش کنید" : !loginState && " وارد سایت شوید"));
+                  if (!loginState || !AttachmentList[0].IsFree) {
+                    toast.error("برای دانلود یا مشاهده لطفاٌ" + (!loginState ? " وارد سایت شوید" : "با خطوط ایرانسل ، رایتل ، همراه اول و بدون vpn وارد سایت شوید" ));
                   } else {
                     setdisplaydownload(true);
                   }
@@ -79,7 +79,10 @@ export default function Header({ headerValue }) {
               </button>
               {TrailerList.length >= 1 ?
                 <button
-                  onClick={() => { if (!ip) { toast.warn("لطغا برای مشاهده vpn خود را خاموش کنید") } else { setDisplay(true) } }}
+                  onClick={() => {
+                    if (!TrailerList[0].IsFree) {
+                      toast.warn("لطفاٌ برای مشاهده با خطوط ایرانسل ، رایتل ، همراه اول و بدون vpn وارد سایت شوید ") } 
+                       else { setDisplay(true) } }}
                   className="bg-stone-600 mx-1 rounded-md p-2 px-5 sm:w-auto w-full"
                 >
                   پیش نمایش
