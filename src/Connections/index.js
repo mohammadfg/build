@@ -1,5 +1,6 @@
 import Parse from 'parse/dist/parse.min.js';
-Parse.initialize("PCFt5CTwZhu8qWl0mXGAAoHqL3I5R53iefKu7ZKr", "J594GmROMXF0u83jr1Wy11tSitNWNcfT5nv12HNp"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
+const APPLICATION_ID = "PCFt5CTwZhu8qWl0mXGAAoHqL3I5R53iefKu7ZKr";
+Parse.initialize(APPLICATION_ID, "J594GmROMXF0u83jr1Wy11tSitNWNcfT5nv12HNp"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
 Parse.serverURL = 'https://parseapi.back4app.com/'
 
 //Saving your First Data Object on Back4App
@@ -8,7 +9,7 @@ async function handleLogin(values, jwt) {
   const user = new Parse.User();
   user.set("username", email);
   user.set("email", email);
-  // user.set("password", password);
+
   if ('iss' in values) {
     try {
       //   authData: { id: "userGoogleId", id_token: "userTokenId" },
@@ -19,12 +20,12 @@ async function handleLogin(values, jwt) {
 
     } catch (error) {
       if (error.code === 202) {
-   
+
         // const userToLink = await Parse.User.current();
         // let loggedInUser = await userToLink.linkWith('google', {
         //   authData: { id: values.sub, id_token: jwt }
         // });
-        localStorage.setItem('Parse/PCFt5CTwZhu8qWl0mXGAAoHqL3I5R53iefKu7ZKr/currentUser', JSON.stringify({ "username": email, "email": email, "emailVerified": true, "ACL": { "*": { "read": true }, "Wk1i7R3EEe": { "read": true, "write": true } }, "objectId": "Wk1i7R3EEe", "className": "_User" }));
+        localStorage.setItem('Parse/' + APPLICATION_ID + '/currentUser', JSON.stringify({ "username": email, "email": email, "emailVerified": true, "ACL": { "*": { "read": true }, "Wk1i7R3EEe": { "read": true, "write": true } }, "objectId": "Wk1i7R3EEe", "className": "_User" }));
 
         return { code: 200, message: "با موفقیت وارد شدید" };
       }
@@ -32,6 +33,7 @@ async function handleLogin(values, jwt) {
 
     }
   } else {
+    user.set("password", password);
     try {
       await user.signUp();
       await Parse.User.logOut();

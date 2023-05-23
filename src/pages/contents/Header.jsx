@@ -68,7 +68,7 @@ export default function Header({ headerValue }) {
               <button
                 onClick={() => {
                   if (!loginState || !AttachmentList[0].IsFree) {
-                    toast.error("برای دانلود یا مشاهده لطفاٌ" + (!loginState ? " وارد سایت شوید" : "با خطوط ایرانسل ، رایتل ، همراه اول و بدون vpn وارد سایت شوید" ));
+                    toast.error("برای دانلود یا مشاهده لطفاٌ" + (!loginState ? " وارد سایت شوید" : "با خطوط ایرانسل ، رایتل ، همراه اول و بدون vpn وارد سایت شوید"));
                   } else {
                     setdisplaydownload(true);
                   }
@@ -80,9 +80,11 @@ export default function Header({ headerValue }) {
               {TrailerList.length >= 1 ?
                 <button
                   onClick={() => {
-                    if (!TrailerList[0].IsFree) {
-                      toast.warn("لطفاٌ برای مشاهده با خطوط ایرانسل ، رایتل ، همراه اول و بدون vpn وارد سایت شوید ") } 
-                       else { setDisplay(true) } }}
+                    if (!AttachmentList[0].IsFree) {
+                      toast.warn("لطفاٌ برای مشاهده با خطوط ایرانسل ، رایتل ، همراه اول و بدون vpn وارد سایت شوید ")
+                    }
+                    else { setDisplay(true) }
+                  }}
                   className="bg-stone-600 mx-1 rounded-md p-2 px-5 sm:w-auto w-full"
                 >
                   پیش نمایش

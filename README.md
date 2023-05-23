@@ -1,3 +1,4 @@
 todo list:
-- google or cloudflare analytics api
 
+- reset password email
+- add custom pages for verify

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { handleLogin } from '../../Connections'
+import { handleLogin ,restorePassword} from '../../Connections'
 import { Player } from '@lottiefiles/react-lottie-player'
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
   const [form, setform] = useState({ email: "", password: "" });
@@ -43,10 +44,12 @@ export default function Login() {
     }
   }
   return (
+
     <div
       className="flex justify-center flex-col h-screen items-center mx-auto overflow-hidden relative"
       style={{ backgroundImage: "url('./images/backgroun_login.jpg')", backgroundRepeat: "no-repeat", backgroundSize: "cover" }}
     >
+      <ToastContainer rtl={true} position="top-right" style={{ padding: "10px" }} />
       <img
         src="./images/logo.svg"
         alt="poster"
@@ -115,7 +118,7 @@ export default function Login() {
                 handleSubmit(decoded, credentialResponse.credential)
               }}
               onError={() => {
-                toast.warn("خطایی رخ داده است")
+                toast.error("خطایی رخ داده است ، لطفا چند دقیقه بعد امتحان کنید")
               }}
             />
           </GoogleOAuthProvider>
