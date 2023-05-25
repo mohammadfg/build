@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { handleLogin ,restorePassword} from '../../Connections'
+import { handleLogin, restorePassword } from '../../Connections'
 import { Player } from '@lottiefiles/react-lottie-player'
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
@@ -43,8 +43,13 @@ export default function Login() {
       handleSubmit();
     }
   }
+  function restorePasswords() {
+    if (form.email.length >= 2) {
+      restorePassword(form.email)
+      toast.success("ایمیل بازیابی رمزعبور ارسال گردید !")
+    }
+  }
   return (
-
     <div
       className="flex justify-center flex-col h-screen items-center mx-auto overflow-hidden relative"
       style={{ backgroundImage: "url('./images/backgroun_login.jpg')", backgroundRepeat: "no-repeat", backgroundSize: "cover" }}
@@ -59,7 +64,7 @@ export default function Login() {
 
       <form
         style={{ boxShadow: "0px 0px 13px 3px black" }}
-        className="md:w-1/4 w-11/12 p-4 backdrop-blur-xl rounded-xl max-h-80"
+        className="md:w-1/4 w-11/12 p-4 backdrop-blur-xl rounded-xl max-h-96"
       >
 
         <div className={!display ? 'hidden' : "block text-center "}>
@@ -74,9 +79,15 @@ export default function Login() {
           <p>{ErrorServer.message ?? ""}</p>
           <input
             type="button"
-            className={"rounded-md p-2 opacity-0 my-2 cursor-pointer w-full transition-opacity duration-300 " + (('code' in ErrorServer) && (ErrorServer.code === 200 ? 'bg-green-600 opacity-100' : "bg-orange-400  opacity-100"))}
+            className={"rounded-md p-2 opacity-0 my-1 cursor-pointer w-full transition-opacity duration-300 " + (('code' in ErrorServer) && (ErrorServer.code === 200 ? 'bg-green-600 opacity-100' : "bg-orange-400  opacity-100"))}
             value={ErrorServer.code === 200 ? "ورود به صفحه اصلی" : "چیزی را اشتباه وارد کردید ؟"}
             onClick={() => { ErrorServer.code === 200 ? handleDisplay('success') : handleDisplay() }}
+          />
+          <input
+            type="button"
+            className={"rounded-md p-2 opacity-0 mt-1 cursor-pointer w-full transition-opacity duration-300 " + (('code' in ErrorServer) && (ErrorServer.code === 200 ? 'hidden' : "bg-violet-500  opacity-100 block"))}
+            value="گذرواژه خود را فراموش کردید ؟"
+            onClick={() => { restorePasswords() }}
           />
         </div>
         <div className={display ? 'hidden' : "block"}>

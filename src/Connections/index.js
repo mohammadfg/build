@@ -67,14 +67,11 @@ async function logOut() {
   }
 
 }
-async function restorePassword() {
+async function restorePassword(email) {
   try {
-    await Parse.User.requestPasswordReset("mohamadfg822@gmail.com");
-    alert(`Success! Please check  to proceed with password reset.`);
+    await Parse.User.requestPasswordReset(email);
     return true;
   } catch (error) {
-    // Error can be caused by lack of Internet connection
-    alert(`Error! ${error}`);
     return false;
   }
 }

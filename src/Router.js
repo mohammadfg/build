@@ -8,6 +8,7 @@ const Home = lazy(() => import('./pages/home'));
 const Contents = lazy(() => import('./pages/contents'));
 const Login = lazy(() => import('./pages/login'));
 const Founder = lazy(() => import("./pages/Founder"));
+const Verify = lazy(() => import("./pages/verify"));
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,9 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  }, {
+    path: "/verify",
+    element: <Verify />,
   },
   {
     path: "/*",
